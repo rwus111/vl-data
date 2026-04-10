@@ -1,0 +1,29 @@
+name: Crawling
+
+on:
+  workflow_dispatch: # allow manual run
+  push:
+    branches: master
+  schedule:
+    - cron: '0 12 * * *' # run every day at 12:00 UTC (19h VN time)
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [ 3.12.3 ] # upgrade python while ubuntu-latest = 24.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements.txt
+      - run: bash ./bin/github_data.sh
