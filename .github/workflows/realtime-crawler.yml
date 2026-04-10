@@ -10,6 +10,7 @@ jobs:
   crawl-and-push:
     name: Crawl Vietlott then push
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: 📥 Kéo source code (Checkout)
@@ -25,7 +26,7 @@ jobs:
           pip install uv
           uv venv
           uv pip install -r requirements.txt
-          uv pip install loguru cattrs attrs polars pendulum requests beautifulsoup4 lxml lxml-html-clean
+          uv pip install loguru cattrs attrs polars pendulum requests beautifulsoup4 lxml lxml-html-clean cloudscraper
 
       - name: 🚀 GoGo
         env:
